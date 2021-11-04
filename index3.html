@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="cuboid1 room1">
+        <div class="cuboid__side">ROOM 1</div>
+        <div class="cuboid__side">2</div>
+        <div class="cuboid__side">3</div>
+        <div class="cuboid__side">4</div>
+        <div class="cuboid__side">5</div>
+        <div class="cuboid__side">6</div>
+    </div>
+    <div class="cuboid2 room2">
+        <div class="cuboid__side">ROOM 2</div>
+        <div class="cuboid__side"></div>
+        <div class="cuboid__side"></div>
+        <div class="cuboid__side"></div>
+        <div class="cuboid__side"></div>
+        <div class="cuboid__side"></div>
+    </div>
+    <div id="diamond-shield"></div>
+
+</body>
+<script>
+    const man = document.querySelector('#diamond-shield');
+    const speed = 5;
+    const room1 = document.querySelector('.room1');
+    console.log('room1 offsetLeft',room1.style.offsetLeft);
+    const room2 = document.querySelector('.room2');
+    console.log('room2 offsetLeft',room2.style.offsetLeft)
+    document.addEventListener('keydown', (e) => {
+        console.log(e.code);
+        let top,left;
+        top = getComputedStyle(man).top.split('px')[0];
+        top = parseFloat(top);
+        left = getComputedStyle(man).left.split('px')[0];
+        left = parseFloat(left);
+        switch (e.code) {
+            case 'ArrowUp':
+                man.style.top = (top - speed) + "px";
+                man.style.left = (left + Math.tan(55 * Math.PI/180)*speed) + "px";
+                break;
+            case 'ArrowDown':
+                man.style.top = (top + speed) + "px";
+                man.style.left = (left - Math.tan(55 * Math.PI/180)*speed) + "px";
+                break;
+            case 'ArrowLeft':
+                
+                man.style.left = (left - speed) + "px";
+                man.style.top = (top - Math.tan(15 * Math.PI/180)*speed) + "px";
+                break;
+            case 'ArrowRight':
+                man.style.top = (top + Math.tan(15 * Math.PI/180)*speed) + "px";
+                man.style.left = (left + speed) + "px";
+                break;
+        }
+    })
+</script>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+        width: 100%;
+        height: 100%;
+        /* display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center; */
+        background-color: cadetblue;
+    }
+
+    .cuboid1 {
+        --width: 25vmin;
+        --height: 10vmin;
+        --depth: 30vmin;
+        width: var(--width);
+        height: var(--height);
+        /* background-color: hsla(0, 0%, 100%, 0.2); */
+        position: relative;
+        transform: rotateX(25deg) rotateY(35deg);
+        transform-style: preserve-3d;
+    }
+
+    .cuboid2 {
+        --width: 45vmin;
+        --height: 10vmin;
+        --depth: 20vmin;
+        width: var(--width);
+        height: var(--height);
+        /* background-color: hsla(0, 0%, 100%, 0.2); */
+        position: relative;
+        transform: rotateX(25deg) rotateY(35deg);
+        transform-style: preserve-3d;
+    }
+
+    .cuboid__side {
+        background-color: hsla(0, 0%, 100%, 0.2);
+        border: 1px solid hsl(0, 0%, 100%);
+        position: absolute;
+    }
+
+    .cuboid__side:nth-of-type(1) {
+        width: var(--width);
+        height: var(--height);
+
+        transform: translate3d(0, 0, calc(var(--depth) * -0.5));
+    }
+
+    .cuboid__side:nth-of-type(2) {
+        width: var(--width);
+        height: var(--height);
+        transform: rotateY(180deg) translate3d(0, 0, calc(var(--depth) * -0.5));
+    }
+
+    .cuboid__side:nth-of-type(3) {
+        width: var(--depth);
+        height: var(--height);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotateY(90deg) translate3d(0, 0, calc(var(--width) * -0.5));
+    }
+
+    .cuboid__side:nth-of-type(4) {
+        width: var(--depth);
+        height: var(--height);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotateY(-90deg) translate3d(0, 0, calc(var(--width) * -0.5));
+    }
+
+    .cuboid__side:nth-of-type(5) {
+        width: var(--width);
+        height: var(--depth);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotateX(-90deg) translate3d(0, 0, calc(var(--height) * -0.5));
+    }
+
+    .cuboid__side:nth-of-type(6) {
+        width: var(--width);
+        height: var(--depth);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotateX(90deg) translate3d(0, 0, calc(var(--height) * -0.5));
+    }
+
+    .room1 {
+        top: 200px;
+        left: 100px;
+    }
+
+    .room2 {
+        top: 200px;
+        left: 400px;
+    }
+
+    #diamond-shield {
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-bottom: 10px solid orange;
+        position: relative;
+        top: -10px;
+    }
+
+    #diamond-shield:after {
+        content: '';
+        position: absolute;
+        left: -10px;
+        top: 10px;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-top: 30px solid orange;
+    }
+</style>
+
+</html>
